@@ -17,10 +17,12 @@ public class Coordenada {
     }
     
     public boolean isValida(int dimensio){ //Fila ABC , Columna 123
-        if (dimensio <= 3 && dimensio > 0) {
-            return true;
-        }else{
-            return false;
-        }
+    String letrasValidas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    int indexFila = letrasValidas.indexOf(fila.toUpperCase());
+    
+    if (indexFila == -1 || indexFila >= dimensio) {
+        return false; 
+    }
+    return columna < 1 || columna > dimensio;
     }
 }

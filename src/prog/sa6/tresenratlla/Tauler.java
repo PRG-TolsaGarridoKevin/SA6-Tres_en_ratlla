@@ -33,7 +33,8 @@ public class Tauler {
     }
 
     public void posarFitxa(Coordenada coordenada, EstatCasella tipusFitxa) {
-        int fila = Integer.parseInt(coordenada.getFila());
+        String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        int fila = letras.indexOf(coordenada.getFila().toUpperCase());        
         if (coordenada.isValida(dimensio) && !isOcupada(coordenada)) {
             estatCasella[fila][coordenada.getColumna()] = tipusFitxa;
         }
@@ -60,7 +61,7 @@ public class Tauler {
     }
 
     public boolean hiHaTresEnRatlla() {
-        return hiHaTresEnRatlla();
+        return hiHaTresEnRatlla(EstatCasella.FITXA_O) || hiHaTresEnRatlla(EstatCasella.FITXA_X);
     }
 
     private boolean hiHaTresEnRatlla(EstatCasella tipusFitxa) {

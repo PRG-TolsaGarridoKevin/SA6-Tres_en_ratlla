@@ -3,7 +3,7 @@ package prog.sa6.tresenratlla;
 import java.util.Scanner;
 
 public class GestorIO {
-
+    private static final String MISSATGE_ERROR = "Error! Format incorrecte (ex: A-1)";
     public static final String FORMATO = "^[A-Za-z]-\\d$";
     public static Scanner scanner = new Scanner(System.in);
 
@@ -16,7 +16,7 @@ public class GestorIO {
             if (validarCadenaCorrecta(cadenaEntrada)) {
                 return cadenaEntrada;
             }else{
-                System.out.println("Introdiuce el formato valido Ejemplo:[B-3]");
+                System.out.println(MISSATGE_ERROR);
             }
         }
     }
@@ -25,8 +25,8 @@ public class GestorIO {
        return cadena.matches(FORMATO);
     }
 
-    public static void llegirLletraGioNumero(String cadena) {
-    
+    public static void llegirLletraGuioNumero(String cadena) {
+        
     }
 
 }
