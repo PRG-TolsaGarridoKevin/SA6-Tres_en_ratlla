@@ -1,22 +1,22 @@
 package prog.sa6.tresenratlla;
 public class Coordenada {
-    private String fila;
+    private char fila;
     private int columna;
 
     public Coordenada(String fila, int columna) {
-        this.fila = fila;
-        this.columna = columna;
+        this.fila = fila.toUpperCase().charAt(0); 
+        this.columna = columna - 1; 
     }
 
-    public String getFila() {
-        return fila;
+    public int getFila() {
+        return fila - 'A'; 
     }
 
     public int getColumna() {
-        return columna;
+        return columna; 
     }
-    
-    public boolean isValida(int dimensio){ //Fila ABC , Columna 123 (De 3 hasta 8)
-    return dimensio >= 3 && dimensio <= 8;
+
+    public boolean isValida(int dimensio) { 
+        return getFila() >= 0 && getFila() < dimensio && columna >= 0 && columna < dimensio;
     }
 }

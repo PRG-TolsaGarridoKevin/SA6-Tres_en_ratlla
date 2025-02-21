@@ -1,58 +1,59 @@
 package prog.sa6.tresenratlla;
 
 public class Tauler {
-
+    private EstatCasella[][] caselles;
     private int dimensio;
-    private EstatCasella[][] estatCasella;
 
-    public Tauler(int dimensio, EstatCasella[][] estatCasella) {
+    public Tauler(int dimensio) {
         this.dimensio = dimensio;
-        this.estatCasella = estatCasella;
+        this.caselles = new EstatCasella[dimensio][dimensio];
+        buidar();
     }
 
     public void buidar() {
         for (int i = 0; i < dimensio; i++) {
             for (int j = 0; j < dimensio; j++) {
-                estatCasella[i][j] = EstatCasella.BUIT;
+                caselles[i][j] = EstatCasella.BUIT;
             }
         }
     }
 
     public boolean isCoordenadaValida(Coordenada coordenada) {
-        return coordenada.isValida(dimensio);
-    }
-
-    public void mostrar() {
-        for (int i = 0; i < dimensio; i++) {
-            System.out.println("| ");
-            for (int j = 0; j < dimensio; j++) {
-                System.out.println(estatCasella[i][j]);
-            }
-            System.out.println(" |");
-        }
+        return coordenada != null && coordenada.isValida(dimensio);
     }
 
     public void posarFitxa(Coordenada coordenada, EstatCasella tipusFitxa) {
-        String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        int fila = letras.indexOf(coordenada.getFila().toUpperCase());        
-        if (coordenada.isValida(dimensio) && !isOcupada(coordenada)) {
-            estatCasella[fila][coordenada.getColumna()] = tipusFitxa;
-        }
+        if (!isCoordenadaValida(coordenada)) {
+        System.out.println("Error: la coordenada está fuera del tauler");
+        return;
+    }
+    
+    int fila = coordenada.getFila();
+    int columna = coordenada.getColumna();
+
+    if (isOcupada(coordenada)) {
+        System.out.println("La casilla está ocupada.");
+        return;
+    }
+
+    caselles[fila][columna] = tipusFitxa;
     }
 
     public boolean isOcupada(Coordenada coordenada) {
-        String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String filaString = coordenada.getFila();
-        int fila = letras.indexOf(filaString.toUpperCase());
+        int fila = coordenada.getFila();
+        int columna = coordenada.getColumna();
 
-        return estatCasella[fila][coordenada.getColumna()] != EstatCasella.BUIT;
+        if (!isCoordenadaValida(coordenada)) {
+            return true;
+        }
+
+        return caselles[fila][columna] != EstatCasella.BUIT;
     }
 
     public boolean estaPle() {
         for (int i = 0; i < dimensio; i++) {
             for (int j = 0; j < dimensio; j++) {
-                Coordenada coordenada = new Coordenada(String.valueOf(i), j);
-                if (!isOcupada(coordenada)) {
+                if (caselles[i][j] == EstatCasella.BUIT) {
                     return false;
                 }
             }
@@ -60,68 +61,70 @@ public class Tauler {
         return true;
     }
 
-    public boolean hiHaTresEnRatlla() {
-        return hiHaTresEnRatlla(EstatCasella.FITXA_O) || hiHaTresEnRatlla(EstatCasella.FITXA_X);
-    }
-
-    private boolean hiHaTresEnRatlla(EstatCasella tipusFitxa) {
-        return comprobarLinea(tipusFitxa) || 
-               comprobarColumna(tipusFitxa) || 
-               comprobarDiagonal1(tipusFitxa) ||
-               comprobarDiagonal2(tipusFitxa);
-
-    }
-
-    private boolean comprobarLinea(EstatCasella tipusFitxa) {
-        for (int i = 0; i < dimensio; i++) {
-            int contador = 0; 
-
-            for (int j = 0; j < dimensio; j++) {
-                if (estatCasella[i][j] == tipusFitxa && estatCasella[i][j] != tipusFitxa.BUIT) {
-                    contador++;
-                }
-            }
-            if (contador == dimensio) {
-                return true; 
-            }
+    public void mostrar() {
+        System.out.print("  ");
+        for (int j = 1; j <= dimensio; j++) {
+            System.out.print(" " + j + " ");
         }
-        return false;
+        System.out.println();
+
+        for (int i = 0; i < dimensio; i++) {
+            System.out.print((char) ('A' + i) + " ");
+            for (int j = 0; j < dimensio; j++) {
+                System.out.print("|" + caselles[i][j] + " ");
+            }
+            System.out.println("|");
+        }
     }
     
-    private boolean comprobarColumna(EstatCasella tipusFitxa){
+      public boolean hiHaTresEnRatlla(EstatCasella tipusFitxa){
+        return comprobarFila(tipusFitxa) || comprobarDiagonals(tipusFitxa) || comprobarColumna(tipusFitxa);
+    }
+    
+    private boolean comprobarFila(EstatCasella tipusFitxa){
         for (int i = 0; i < dimensio; i++) {
-            int contador = 0;
-            
+            boolean lineaCompleta = true;
             for (int j = 0; j < dimensio; j++) {
-                if (estatCasella[j][i] == tipusFitxa && estatCasella[j][i] != tipusFitxa.BUIT) {
-                    contador++;
+                if (caselles[i][j]!=tipusFitxa) {
+                    lineaCompleta=false;
+                    break;
                 }
             }
-            if (contador == dimensio) {
+            if (lineaCompleta) {
                 return true;
             }
         }
         return false;
-    }
+    } 
     
-    private boolean comprobarDiagonal1(EstatCasella tipusFitxa){
-        int contador = 0;
-        for (int i = 0; i < dimensio; i++) {
-
-            if (estatCasella[i][i] == tipusFitxa && estatCasella[i][i] != tipusFitxa.BUIT) {
-                contador++;
-            }  
-        }
-        return contador == dimensio;
-    }
-    
-    private boolean comprobarDiagonal2(EstatCasella tipusFitxa){
-        int contador = 0;
-        for (int i = 0; i < dimensio; i++) {
-            if (estatCasella[i][dimensio - 1 - i] == tipusFitxa && estatCasella[i][dimensio - 1 - i] != tipusFitxa.BUIT) {
-                contador++;
+    private boolean comprobarColumna(EstatCasella tipusFitxa){
+        for (int j = 0; j < dimensio; j++) {
+            boolean columnaCompleta = true;
+            for (int i = 0; i < dimensio; i++) {
+                if (caselles[i][j]!=tipusFitxa) {
+                    columnaCompleta=false;
+                    break;
+                }
+            }
+            if (columnaCompleta) {
+                return true;
             }
         }
-        return contador == dimensio;
+        return false;
+    } 
+    
+    private boolean comprobarDiagonals (EstatCasella tipusFitxa){
+        boolean diagonalPrincipal = true;
+        boolean diagonalSecundaria = true;
+        
+        for (int i = 0; i < dimensio; i++) {
+            if (caselles[i][i] != tipusFitxa) {
+                diagonalPrincipal = false;
+            }
+            if (caselles[i][dimensio - 1 - i]!= tipusFitxa) {
+                diagonalSecundaria = false;
+            }
+        }
+        return diagonalPrincipal || diagonalSecundaria;
     }
 }
