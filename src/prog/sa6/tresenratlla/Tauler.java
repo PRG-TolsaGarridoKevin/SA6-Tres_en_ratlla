@@ -24,11 +24,11 @@ public class Tauler {
 
     public void mostrar() {
         for (int i = 0; i < dimensio; i++) {
-            System.out.println("|");
+            System.out.println("| ");
             for (int j = 0; j < dimensio; j++) {
                 System.out.println(estatCasella[i][j]);
             }
-            System.out.println("|");
+            System.out.println(" |");
         }
     }
 

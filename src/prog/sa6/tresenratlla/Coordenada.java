@@ -16,13 +16,7 @@ public class Coordenada {
         return columna;
     }
     
-    public boolean isValida(int dimensio){ //Fila ABC , Columna 123
-    String letrasValidas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    int indexFila = letrasValidas.indexOf(fila.toUpperCase());
-    
-    if (indexFila == -1 || indexFila >= dimensio) {
-        return false; 
-    }
-    return columna < 1 || columna > dimensio;
+    public boolean isValida(int dimensio){ //Fila ABC , Columna 123 (De 3 hasta 8)
+    return dimensio >= 3 && dimensio <= 8;
     }
 }
