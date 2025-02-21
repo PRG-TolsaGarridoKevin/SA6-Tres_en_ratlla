@@ -16,14 +16,25 @@ public class Jugador {
     }
     
     private Coordenada obtenirCoordenada(Tauler tauler){
-        GestorIO.llegirText(DEMANAR_COORDENADA);
+        Coordenada coordenada;
+        boolean coordenadaValida;
         
-        
-        
-        if (tauler.isCoordenadaValida()) {
+        do{
+            String coordenadaRecibida = GestorIO.llegirLletraGuioNumero("Jugador amb "+this.fitxa+"\n"+"Introdueix una casella");
             
-        }
-
+            char letraChar = coordenadaRecibida.charAt(0);
+            String letraString = letraChar+""; //Letra
+            coordenadaRecibida.charAt(2); //Numero
+            
+            coordenada = new Coordenada(letraString, coordenadaRecibida.charAt(2));
+            coordenadaValida = tauler.isCoordenadaValida(coordenada);
+            
+            if (!coordenadaValida) {
+                System.out.println("Error la coordenada esta fora del tauler");
+            }
+        }while(!coordenadaValida);
+        return coordenada;
+    
         
     }
     

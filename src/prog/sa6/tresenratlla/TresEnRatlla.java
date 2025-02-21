@@ -23,7 +23,7 @@ public class TresEnRatlla {
     public void jugar(){
         int dimensio = 3;
         if (GestorIO.solicitarConfirmacio(MENSAGE_DIMENSIO1)) {
-            dimensio = Integer.parseInt(GestorIO.llegirText(MENSAGE_DIMENSIO2));
+            dimensio = Integer.parseInt(GestorIO.llegirLletraGuioNumero(MENSAGE_DIMENSIO2));
             tablero = new Tauler(dimensio, EstatCasella.BUIT);
             tablero.buidar();
             Jugador jugador1 = new Jugador(EstatCasella.FITXA_O);

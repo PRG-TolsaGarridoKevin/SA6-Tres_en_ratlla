@@ -8,7 +8,7 @@ public class GestorIO {
     public static final String FORMATO = "^[A-Za-z]-\\d$";
     public static Scanner scanner = new Scanner(System.in);
 
-    public static String llegirText(String mensage) {
+    public static String llegirLletraGuioNumero(String mensage) {
         System.out.println(mensage);
         String cadenaEntrada;
         while(true){
@@ -26,9 +26,6 @@ public class GestorIO {
        return cadena.matches(FORMATO);
     }
 
-    public static void llegirLletraGuioNumero(String cadena) {
-        
-    }
     
      public static boolean solicitarConfirmacio(String missatge){  
         boolean bucleActivo = true;
